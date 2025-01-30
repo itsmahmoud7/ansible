@@ -8,7 +8,7 @@
     apt:
       update_cache: yes
 
-  - name: install apache2 package
+  - name: install cmatrix package
     apt:
      name: cmatrix
      state: latest
