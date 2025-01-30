@@ -10,10 +10,6 @@
 
   - name: install apache2 package
     apt:
-     name: apache2
+     name: cmatrix
      state: latest
 
-  - name: install php support for apache
-    apt:
-     name: libapache2-mod-php
-     state: latest
