@@ -4,17 +4,19 @@
   become: true
   pre_tasks:
 
-  - name: install updates (CentOS)
+  - name: update repo cache (CentOS)
+    tags: always
     dnf:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "CentOS"
 
 
-  - name: install updates (Ubuntu)
+  - name: update repo cache (Ubuntu)
+    tags: always
     apt:
-      upgrade: dist
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
 
 
@@ -40,6 +42,14 @@
         group: root
         mode: 0644
 
+    - name: starting apache service for ubuntu
+      tags: apache,httpd
+      service:
+        name: apache2
+        state: started
+      when: ansible_distribution == "Ubuntu"
+
+
     - name: install apache and php for Centos servers
       dnf:
         name:
@@ -47,6 +57,28 @@
           - php
         state: latest
       when: ansible_distribution == "CentOS" 
+
+
+- hosts: workstations
+  become: true
+  tasks:
+
+    - name: install unzip
+      package:
+        name: unzip
+     
+  
+  
+    - name: install terraform
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.12.28/terraform_0.12.28_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: 0755
+        owner: root
+        group: root
+
+
 
 
 - hosts: db_servers

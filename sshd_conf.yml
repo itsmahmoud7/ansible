@@ -1,0 +1,28 @@
+---
+
+
+
+
+- hosts: 10.116.0.2
+  become: yes
+  tasks:
+
+
+
+    - name: change Root login in sshd config file
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: PermitRootLogin no
+      when: ansible_distribution == "Ubuntu"
+      register: apache2
+
+
+
+
+
+    - name: restarting sshd service
+      service:
+        name: ssh
+        state: restarted
+      when: apache2.changed
