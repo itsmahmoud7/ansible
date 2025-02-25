@@ -1,8 +1,8 @@
 - name: install apache and php for ubuntu servers
   apt:
     name:
-        - apache2
-        - libapache2-mod-php
+        - "{{apache_package_name}}"
+        - "{{php_package_name}}"
     state: latest
   when: ansible_distribution == "Ubuntu"
 
@@ -16,18 +16,20 @@
     group: root
     mode: 0644
 
-- name: starting apache service for ubuntu
-  tags: apache,httpd
-  service:
-      name: apache2
-      state: started
-  when: ansible_distribution == "Ubuntu"
+- name: changing port number in apache server
+  tags: apache,http,httpd
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    regexp: '^Listen 8080'
+    line: Listen 80
+  notify: restart_apache
+
 
 
 - name: install apache and php for Centos servers
   dnf:
     name:
-      - httpd
-      - php
+      -  "{{apache_package_name}}"
+      - "{{php_package_name}}"
     state: latest
   when: ansible_distribution == "CentOS"
