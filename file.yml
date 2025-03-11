@@ -1,0 +1,27 @@
+---
+
+
+- hosts: all
+  user: mashraf
+  tasks:
+
+
+    # - name: create a test file named message.txt
+    #   file:
+    #     path: /home/mashraf/message.txt
+    #     state: touch
+
+
+
+
+    # # - name: adding a line in the message.txt
+    #   lineinfile:
+    #     path: ~/message.txt
+    #     line: 'Hello World!'
+
+
+    - name: adding a line at the beginning of the file
+      lineinfile:
+        path: ~/message.txt
+        line: "My name is Mahmoud"
+        insertbefore: BOF

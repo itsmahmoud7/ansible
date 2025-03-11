@@ -1,0 +1,13 @@
+---
+
+
+- hosts: all
+  user: mashraf
+  tasks:
+
+
+
+    - name: adding a line at the end in .bashrc file
+      lineinfile:
+        path: ~/.bashrc
+        line: 'echo -e "\n\e[33mHello Mahmoud\e[0m"'
